@@ -6,6 +6,7 @@ venv/
 # Archivos de configuración o secretos
 config/credentials.json
 config/*.yaml
+config/token.json
 
 # Archivos del sistema
 .DS_Store
