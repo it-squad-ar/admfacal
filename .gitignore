@@ -1,0 +1,57 @@
+# Entornos virtuales
+venv/
+.env/
+.venv/
+
+# Archivos de configuración o secretos
+config/credentials.json
+config/*.yaml
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de logs
+*.log
+
+# __pycache__ y archivos compilados de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Archivos de Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Salidas de datos
+data/raw/
+data/processed/
+data/outputs/
+
+# Archivos de Excel temporales
+~$*.xls*
+*.xlsx
+*.csv
+
+# Archivos generados por el sistema
+*.orig
+
+# Librerías instaladas (si se suben por error)
+site/
+
+# Archivos de backup de editores
+*.vscode/
+*.idea/
+
+# Entornos Docker (si aplica)
+docker-compose.override.yml
+
+# Archivos de dependencia opcionales
+Pipfile.lock
+poetry.lock
