@@ -1,0 +1,169 @@
+[
+    {
+        "id": "197c73dd11e1563c",
+        "body": "",
+        "email": {
+            "id": "197c73dd11e1563c",
+            "threadId": "197c73dd11e1563c",
+            "labelIds": [
+                "UNREAD",
+                "CATEGORY_PERSONAL",
+                "INBOX"
+            ],
+            "snippet": "Este correo contiene un archivo PDF adjunto. -- Ignacio Freysselinard IT Product Owner BARBUSS Global Barbuss.com Follow us La Información contenida en este correo es confidencial para uso interno o",
+            "payload": {
+                "partId": "",
+                "mimeType": "multipart/mixed",
+                "filename": "",
+                "headers": [
+                    {
+                        "name": "Delivered-To",
+                        "value": "tests.itprotonsquad@gmail.com"
+                    },
+                    {
+                        "name": "Received",
+                        "value": "by 2002:a05:6638:2855:b0:501:eed4:721c with SMTP id ds21csp3683359jab;        Tue, 1 Jul 2025 11:26:47 -0700 (PDT)"
+                    },
+                    {
+                        "name": "X-Received",
+                        "value": "by 2002:a17:902:cec4:b0:235:7c6:ebdb with SMTP id d9443c01a7336-23ac2d86a01mr289867825ad.10.1751394406887;        Tue, 01 Jul 2025 11:26:46 -0700 (PDT)"
+                    },
+                    {
+                        "name": "ARC-Seal",
+                        "value": "i=1; a=rsa-sha256; t=1751394406; cv=none;        d=google.com; s=arc-20240605;        b=h+dA9cmqowdZUkhFR9LLAW4L1aVOoXz/TMf1VXylbjWTDoe/KcLVHF4WyBxMgRRzLv         9cURmjsaVoFGqSQcyD6SW+sjsowgaTXsF3ng9eFRyrC5o6aKVLlD6LCd5vgA4NE+/G8p         m+6aUgKHmmOAGWpwCl9o6zpSAUQADwvXyvGYBUruvDPfhamiSKbNvV9tp31f9liueH/u         iW7nowMXP10ob82RUFARmzXuZWoyE/elnG93EuYierajLIPR+ZvM61JkFBNEzzh+6pi/         rAIjl0dGgtg+Alm+04IOLUImNyyZIxYJ6jPsqOzGRomguuL5L05oNWPAQIv+40Pf8LeQ         SsqA=="
+                    },
+                    {
+                        "name": "ARC-Message-Signature",
+                        "value": "i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;        h=to:subject:message-id:date:from:mime-version:dkim-signature;        bh=xxXKSeK+34bm/SazJ7wOCb8NLUxnHPVBN0x/ThYQecs=;        fh=HIINm/hV3JyXfeomxy67kEXNPzimgueIb/Mtd+6tKNA=;        b=D3UVZ7nYboZlJdQdsdNn2INE/4b5M61FGWiZE4Hqd7CxAyspgI9PCcgjb2KhD3IUV5         H0w1yizdvkD5RZkgdJUixDzaCyn9YjWp+KL9kzRLrwrLGG3XiHC5e3F0X+LgB9TujT/8         azuVxyAhuPyGwJSj8I/F+UfxGMMuSGrA23W6jLhAWlxSxmBfipnH1c3rdGQlGfen5ZJy         TST9uTaRhujXs0OCtCdSiJwCL88NuoiXIKY1Kthsxuqy3fN91ztC5kId81M85/Q2lVQW         Rcu9ENn2EtQWb6tdjVjrw2yrLjjeN6TJPBe8ZlHfSWw1hJ3nr6ominxc1XDUOp73bPxI         Nznw==;        dara=google.com"
+                    },
+                    {
+                        "name": "ARC-Authentication-Results",
+                        "value": "i=1; mx.google.com;       dkim=pass header.i=@barbuss.com header.s=barbuss header.b=1i81qym3;       spf=pass (google.com: domain of ignacio.freysselinard@barbuss.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=ignacio.freysselinard@barbuss.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=barbuss.com;       dara=pass header.i=@gmail.com"
+                    },
+                    {
+                        "name": "Return-Path",
+                        "value": "<ignacio.freysselinard@barbuss.com>"
+                    },
+                    {
+                        "name": "Received",
+                        "value": "from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])        by mx.google.com with SMTPS id d9443c01a7336-23abe32c301sor69210965ad.6.2025.07.01.11.26.46        for <tests.itprotonsquad@gmail.com>        (Google Transport Security);        Tue, 01 Jul 2025 11:26:46 -0700 (PDT)"
+                    },
+                    {
+                        "name": "Received-SPF",
+                        "value": "pass (google.com: domain of ignacio.freysselinard@barbuss.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;"
+                    },
+                    {
+                        "name": "Authentication-Results",
+                        "value": "mx.google.com;       dkim=pass header.i=@barbuss.com header.s=barbuss header.b=1i81qym3;       spf=pass (google.com: domain of ignacio.freysselinard@barbuss.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=ignacio.freysselinard@barbuss.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=barbuss.com;       dara=pass header.i=@gmail.com"
+                    },
+                    {
+                        "name": "DKIM-Signature",
+                        "value": "v=1; a=rsa-sha256; c=relaxed/relaxed;        d=barbuss.com; s=barbuss; t=1751394406; x=1751999206; dara=google.com;        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject         :date:message-id:reply-to;        bh=xxXKSeK+34bm/SazJ7wOCb8NLUxnHPVBN0x/ThYQecs=;        b=1i81qym3Y6vQ1XVoEDMUNVD2uOL7BO3KJk6apKe33m51boHVZQxIZRF38VMplyv6Ht         l2QRGhGI4f/feGo4Pc1wMLLSHCEJQjyJyYd1ejxHYcFF84K+S1oHIZZQQ5LMlw9YDAHN         5GPEH0GaNXmaU0U4MyfO5XZAxjADEsNedAAlgZbU4soR6EweG0OyEL8jo2R4NIsxgVbL         f81vf1AqTpIhcLjYytNA4CQJ/WnQukGZ7x/AKKq7vvZgnt0fvZi0FHhQxaiPg9f80Ysa         XS4Fl/vuxizz5Pa+X711BBhfX5M7RGobQBXOvg+7i/Vx7lDLO/qAJ/LfPf+vp1zln8ih         Yixw=="
+                    },
+                    {
+                        "name": "X-Google-DKIM-Signature",
+                        "value": "v=1; a=rsa-sha256; c=relaxed/relaxed;        d=1e100.net; s=20230601; t=1751394406; x=1751999206;        h=to:subject:message-id:date:from:mime-version:x-gm-message-state         :from:to:cc:subject:date:message-id:reply-to;        bh=xxXKSeK+34bm/SazJ7wOCb8NLUxnHPVBN0x/ThYQecs=;        b=sYfyU08+GYllmTxXk+EM59cjnomgo9sKjSBfKbc9p2YY6R8fddXxqYuDUukaGHPzIE         GxiL/sCwkepx2PtYV6RkhYpswtoRGRW5GelgKbEM8vyBGANV2miOs6vn1uwkRfqXMfK6         igodXEgmbLzRjKXggQR1k2kQOoCKcOUQdzjMKMSGmssisGAQ+VSh1lBhQkc7sFWzqAb6         aTqLTWefj67vMdJTbPwrkYuAqHThh+xP+FYQurwvdaJXoYLLzvJ+lOuexVB1LH0F3b0n         V853sBgPQ16mWJ5HQDQO6vkEv1CT/RXSu4MH7bj+teNVwn56t4VYThWrdhIG2mZ+TzRx         5kvw=="
+                    },
+                    {
+                        "name": "X-Gm-Message-State",
+                        "value": "AOJu0YxTu4IS1nzxpjRJLBqQrJvQmVhYFnH7WUv6azgU47/qaKe0R2nm CCdNZtSlkiq+6lMES8nWaYZmlJGmXWKkhZQEGRHr3Zv3ZP+WE9XjNyccKXLQgjIaB0bLJnFqQ/4 65lLHpBBIrDqh+BE+3WOQsaIxG2WTOEpOeCu6I57jyp6xS0ozbk6s3WIdSg=="
+                    },
+                    {
+                        "name": "X-Gm-Gg",
+                        "value": "ASbGncsE1UNhk5wkX8LNV9mzeK7ojgfSa/Vo+Q3r73TFLzq6RyfycRE4EdQIH7sJOp8 AKe35Y1pYg5grdYeywdRIzHu/i01McWEoGeah1WElAOfOT6kdnIlfeCxXEPYtGke72/qZ5Ln9FV 6e+laaFQwRC6fgX+bbb/n4BbayXYuZ8xOlxxAjlkyGJ9x5"
+                    },
+                    {
+                        "name": "X-Google-Smtp-Source",
+                        "value": "AGHT+IGoboTzWV6E8RCThmgCwMoJqel3XWjoh7W38iOs1adOljg1kSosPjnOmBSfXB6QkugLMp75lT5IA4Cnd3Rg3cA="
+                    },
+                    {
+                        "name": "X-Received",
+                        "value": "by 2002:a17:90b:3d90:b0:312:1c83:58e9 with SMTP id 98e67ed59e1d1-31a90b0ff92mr72934a91.5.1751394405607; Tue, 01 Jul 2025 11:26:45 -0700 (PDT)"
+                    },
+                    {
+                        "name": "MIME-Version",
+                        "value": "1.0"
+                    },
+                    {
+                        "name": "From",
+                        "value": "Ignacio Freysselinard - BARBUSS <ignacio.freysselinard@barbuss.com>"
+                    },
+                    {
+                        "name": "Date",
+                        "value": "Tue, 1 Jul 2025 15:26:09 -0300"
+                    },
+                    {
+                        "name": "X-Gm-Features",
+                        "value": "Ac12FXwzixo7NROAGWXxxzN6meXJ9cqlK0a6JJyQHG5mC8MxylVuosxef8C8e8w"
+                    },
+                    {
+                        "name": "Message-ID",
+                        "value": "<CAO0DUzE5KGiaSUfyMES96pmt=bM5HBZbwgk=21eKthU4nZOfTQ@mail.gmail.com>"
+                    },
+                    {
+                        "name": "Subject",
+                        "value": "Test PDF Factura Proveedor"
+                    },
+                    {
+                        "name": "To",
+                        "value": "tests.itprotonsquad@gmail.com"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "value": "multipart/mixed; boundary="00000000000068cfad0638e249c5""
+                    }
+                ],
+                "body": {
+                    "size": 0
+                },
+                "parts": [
+                    {
+                        "partId": "0",
+                        "mimeType": "multipart/alternative",
+                        "filename": "",
+                        "headers": [
+                            {
+                                "name": "Content-Type",
+                                "value": "multipart/alternative; boundary="00000000000068cfaa0638e249c3""
+                            }
+                        ],
+                        "body": {
+                            "size": 0
+                        },
+                        "parts": [
+                            {
+                                "partId": "0.0",
+                                "mimeType": "text/plain",
+                                "filename": "",
+                                "headers": [
+                                    {
+                                        "name": "Content-Type",
+                                        "value": "text/plain; charset="UTF-8""
+                                    },
+                                    {
+                                        "name": "Content-Transfer-Encoding",
+                                        "value": "quoted-printable"
+                                    }
+                                ],
+                                "body": {
+                                    "size": 562,
+                                    "data": "RXN0ZSBjb3JyZW8gY29udGllbmUgdW4gYXJjaGl2byBQREYgYWRqdW50by4NCg0KLS0gDQoNCipJZ25hY2lvIEZyZXlzc2VsaW5hcmQqDQoNCklUIFByb2R1Y3QgT3duZXINCg0KQkFSQlVTUyBHbG9iYWwNCg0KQmFyYnVzcy5jb20NCg0KRm9sbG93IHVzDQoNCg0KDQoNCg0KTGEgSW5mb3JtYWNpw7NuIGNvbnRlbmlkYSBlbiBlc3RlIGNvcnJlbyBlcyBjb25maWRlbmNpYWwgcGFyYSB1c28gaW50ZXJubyBvDQpleGNsdXNpdm8gZGVsIGRlc3RpbmF0YXJpbyBzZcOxYWxhZG8uIFNpIHVzdGVkIHJlY2liacOzIGVzdGEgY29tdW5pY2FjacOzbiBwb3INCmVycm9yLCBwb3IgZmF2b3Igbm90aWZpcXVlIGlubWVkaWF0YW1lbnRlIGEgcXVpZW4gbG8gZW52acOzIHkgZGVzdHJ1eWEgZGljaG8NCmNvcnJlby4NCg0KUHJpdmlsZWdlZC9jb25maWRlbnRpYWwgaW5mb3JtYXRpb24gbWF5IGJlIGNvbnRhaW5lZCBpbiB0aGlzIG1lc3NhZ2UuIElmDQp5b3UgaGF2ZSByZWNlaXZlZCBpdCBieSBtaXN0YWtlLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgYW5kIGRlc3Ryb3kgdGhpcw0KbWVzc2FnZS4NCg=="
+                                }
+                            },
+                            {
+                                "partId": "0.1",
+                                "mimeType": "text/html",
+                                "filename": "",
+                                "headers": [
+                                    {
+                                        "name": "Content-Type",
+                                        "value": "text/html; charset="UTF-8""
+                                    },
+                                    {
+                                        "name": "Content-Transfer-Encoding",
+                                        "value": "quoted-printable"
+                                    }
+                                ],
+                                "body": {
+                                    "size": 2203,
+                                    "data": "PGRpdiBkaXI9Imx0ciI-PGRpdj48ZGl2PkVzdGUgY29ycmVvIGNvbnRpZW5lIHVuIGFyY2hpdm8gUERGIGFkanVudG8uPC9kaXY-PC9kaXY-PGRpdj48YnI-PC9kaXY-PHNwYW4gY2xhc3M9ImdtYWlsX3NpZ25hdHVyZV9wcmVmaXgiPi0tIDwvc3Bhbj48YnI-PGRpdiBkaXI9Imx0ciIgY2xhc3M9ImdtYWlsX3NpZ25hdHVyZSIgZGF0YS1zbWFydG1haWw9ImdtYWlsX3NpZ25hdHVyZSI-PGRpdiBkaXI9Imx0ciI-PHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9ImNvbG9yOnJnYigzNCwzNCwzNCkiPjxiPjxzcGFuIGxhbmc9IkRFIiBzdHlsZT0iZm9udC1mYW1pbHk6QXJpYWwsc2Fucy1zZXJpZjtjb2xvcjpibGFjayI-SWduYWNpbyBGcmV5c3NlbGluYXJkPC9zcGFuPjwvYj48L3A-PHAgY2xhc3M9Ik1zb05vcm1hbCI-PGZvbnQgY29sb3I9IiMwMDAwMDAiIGZhY2U9IkFyaWFsLCBzYW5zLXNlcmlmIj5JVCBQcm9kdWN0IE93bmVyPC9mb250PjwvcD48cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0iY29sb3I6cmdiKDM0LDM0LDM0KSI-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMHB0O2ZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7Y29sb3I6cmdiKDIyNSw0LDc5KSI-QkFSQlVTUzwvc3Bhbj48c3BhbiBsYW5nPSJERSIgc3R5bGU9ImZvbnQtc2l6ZToxMHB0O2ZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7Y29sb3I6cmdiKDMyLDMzLDM2KSI-wqA8L3NwYW4-PHNwYW4gbGFuZz0iREUiIHN0eWxlPSJmb250LXNpemU6MTBwdDtmb250LWZhbWlseTpBcmlhbCxzYW5zLXNlcmlmO2NvbG9yOnJnYig1OSw1Niw1NikiPkdsb2JhbDwvc3Bhbj48L3A-PHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9ImNvbG9yOnJnYigzNCwzNCwzNCkiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTBwdDtmb250LWZhbWlseTpBcmlhbCxzYW5zLXNlcmlmO2NvbG9yOnJnYigwLDExMSwxOTIpIj5CYXJidXNzLmNvbTwvc3Bhbj48L3A-PHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9ImNvbG9yOnJnYigzNCwzNCwzNCk7bGluZS1oZWlnaHQ6MTJwdCI-PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTBwdDtmb250LWZhbWlseTpBcmlhbCxzYW5zLXNlcmlmIj48c3BhbiBzdHlsZT0iY29sb3I6cmdiKDAsMTExLDE5MikiPkZvbGxvdyB1czwvc3Bhbj48L3NwYW4-PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJjb2xvcjpyZ2IoMzQsMzQsMzQpIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwcHQ7Zm9udC1mYW1pbHk6QXJpYWwsc2Fucy1zZXJpZiI-wqA8L3NwYW4-PC9wPjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJjb2xvcjpyZ2IoMzQsMzQsMzQpO2xpbmUtaGVp

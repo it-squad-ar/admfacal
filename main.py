@@ -15,9 +15,9 @@ def main():
         return
     
     # Procesar facturas
-    invoices = process_invoices(messages)
+    #invoices = process_invoices(messages)
 
-    print(invoices)
+    #print(invoices)
     """
     if invoices:
         update_spreadsheet(invoices)
@@ -27,7 +27,7 @@ def main():
     """
 
     print("✅ Process Completed.")
-    #print(messages)
+    print(messages)
 
     #gmail.send_email("agustin.herrera@barbuss.com", "Hola desde Python", "Este es el cuerpo del mensaje.")
     #print("✅ Email sent.")
