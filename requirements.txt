@@ -3,3 +3,8 @@ openpyxl
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
+pdf2image 
+pytesseract 
+pillow
+pytesseract
+poppler-utils 
