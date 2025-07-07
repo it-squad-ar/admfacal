@@ -1,6 +1,4 @@
-import base64
-import io
-import os
+"""import io
 import pytesseract
 from googleapiclient.discovery import build
 from PIL import Image
@@ -8,52 +6,84 @@ from pdf2image import convert_from_bytes
 from models.llm_interface import extract_invoice_data
 
 def process_invoices(emails):
-
-    """Procesa una lista de correos con adjuntos y extrae texto con OCR"""
     invoices = []
 
     for email in emails:
-        try:
-            print(f"📥 Procesando email {email['id']}")
-            message = email['email']
-            payload = message.get('payload', {})
-            parts = payload.get('parts', [])
+        print(f"📥 Procesando email {email['id']}")
+        for attachment in email.get('attachments', []):
+            filename = attachment['filename']
+            file_data = attachment['data']
+            text = ""
 
-            for part in parts:
-                filename = part.get('filename')
-                body = part.get('body', {})
-                attachment_id = body.get('attachmentId')
+            try:
+                if filename.lower().endswith('.pdf'):
+                    print("📄 PDF identificado")
+                    images = convert_from_bytes(file_data)
+                    for image in images:
+                        text += pytesseract.image_to_string(image)
 
-                if attachment_id and filename:
-                    # Adjuntos embebidos (base64 inline)
-                    if 'data' in body:
-                        file_data = base64.urlsafe_b64decode(body['data'])
-                        print(file_data)
-                        text = ""
+                elif filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff')):
+                    print("🖼️ Imagen identificada")
+                    image = Image.open(io.BytesIO(file_data))
+                    text = pytesseract.image_to_string(image)
 
-                        if filename.lower().endswith('.pdf'):
-                            print("pdf identificado")
-                            images = convert_from_bytes(file_data)
-                            print()
-                            for image in images:
-                                text += pytesseract.image_to_string(image)
+                if text.strip():
+                    invoices.append({
+                        'id': email['id'],
+                        'filename': filename,
+                        'text': text.strip()
+                    })
 
-                        elif filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff')):
-                            print("imagen identificada")
-                            image = Image.open(io.BytesIO(file_data))
-                            text = pytesseract.image_to_string(image)
+            except Exception as e:
+                print(f"❌ Error procesando {filename} de {email['id']}: {e}")
 
-                        if text.strip():
-                            invoices.append({
-                                'id': email['id'],
-                                'filename': filename,
-                                'text': text.strip()
-                            })
+    return invoices"""
 
-                    else:
-                        print(f"⚠️ Adjuntos no embebidos en {email['id']}: se requiere el `service` para descargarlos")
 
-        except Exception as e:
-            print(f"❌ Error procesando email {email['id']}: {e}")
+from PIL import Image
+import pytesseract
+import io
+import fitz  # PyMuPDF
+
+
+def extract_text_from_pdf(pdf_bytes):
+    text = ""
+    try:
+        with fitz.open(stream=pdf_bytes, filetype="pdf") as doc:
+            for page in doc:
+                text += page.get_text()
+    except Exception as e:
+        print(f"❌ Error leyendo PDF con fitz: {e}")
+    return text.strip()
+
+def process_invoices(emails):
+    invoices = []
+
+    for email in emails:
+        print(f"📥 Procesando email {email['id']}")
+        for attachment in email.get('attachments', []):
+            filename = attachment['filename']
+            file_data = attachment['data']
+            text = ""
+
+            try:
+                if filename.lower().endswith('.pdf'):
+                    print("📄 PDF identificado")
+                    text = extract_text_from_pdf(file_data)
+
+                elif filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff')):
+                    print("🖼️ Imagen identificada")
+                    image = Image.open(io.BytesIO(file_data))
+                    text = pytesseract.image_to_string(image)
+
+                if text.strip():
+                    invoices.append({
+                        'id': email['id'],
+                        'filename': filename,
+                        'text': text.strip()
+                    })
+
+            except Exception as e:
+                print(f"❌ Error procesando {filename} de {email['id']}: {e}")
 
     return invoices

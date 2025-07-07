@@ -7,4 +7,4 @@ pdf2image
 pytesseract 
 pillow
 pytesseract
-poppler-utils 
+PyMuPDF

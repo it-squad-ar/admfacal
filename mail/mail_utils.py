@@ -1,36 +1,72 @@
+import base64
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from base64 import b64encode, urlsafe_b64decode
 from email.mime.text import MIMEText
 
 def get_invoice_emails(self):
-        print("🔍 Fetching emails...")
-        try:
-            service = build('gmail', 'v1', credentials=self.get_creds())
-            response = service.users().messages().list(userId='me', labelIds=['INBOX'], maxResults=10).execute()
-            messages = response.get('messages', [])
+    print("🔍 Fetching emails...")
+    try:
+        service = build('gmail', 'v1', credentials=self.get_creds())
+        response = service.users().messages().list(userId='me', labelIds=['INBOX'], maxResults=10).execute()
+        messages = response.get('messages', [])
 
-            if not messages:
-                print('No emails found.')
-                return []
-            print(f"Found {len(messages)} emails.")
-            emails = []
-
-            for msg in messages:
-                msg_id = msg['id']
-                email = service.users().messages().get(userId='me', id=msg_id).execute()
-                email_body = ''
-                if 'payload' in email and 'parts' in email['payload']:
-                    for part in email['payload']['parts']:
-                        if part['mimeType'] == 'text/plain':
-                            email_body = urlsafe_b64decode(part['body']['data']).decode()
-                            break
-                emails.append({'id': msg_id, 'body': email_body, 'email': email})
-            return emails
-        
-        except HttpError as error:
-            print(f'An error occurred: {error}')
+        if not messages:
+            print('No emails found.')
             return []
+
+        print(f"Found {len(messages)} emails.")
+        emails = []
+
+        for msg in messages:
+            msg_id = msg['id']
+            email = service.users().messages().get(userId='me', id=msg_id).execute()
+            email_body = ''
+            attachments = []
+
+            payload = email.get('payload', {})
+            parts = payload.get('parts', [])
+
+            for part in parts:
+                mime_type = part.get('mimeType')
+                filename = part.get('filename')
+                body = part.get('body', {})
+                data = body.get('data')
+                attachment_id = body.get('attachmentId')
+
+                # Obtener cuerpo de texto
+                if mime_type == 'text/plain' and data:
+                    email_body = base64.urlsafe_b64decode(data).decode()
+
+                # Procesar adjuntos
+                if filename and attachment_id:
+                    if data:
+                        file_data = base64.urlsafe_b64decode(data)
+                    else:
+                        attachment = service.users().messages().attachments().get(
+                            userId='me',
+                            messageId=msg_id,
+                            id=attachment_id
+                        ).execute()
+                        file_data = base64.urlsafe_b64decode(attachment['data'])
+
+                    attachments.append({
+                        'filename': filename,
+                        'data': file_data
+                    })
+
+            emails.append({
+                'id': msg_id,
+                'body': email_body,
+                'email': email,
+                'attachments': attachments
+            })
+
+        return emails
+
+    except HttpError as error:
+        print(f'❌ An error occurred: {error}')
+        return []
 
 def apply_label(self, messages, label):
     print(f"🏷️ Applying label '{label}' to emails.")
