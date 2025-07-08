@@ -2,6 +2,7 @@ from PIL import Image
 import pytesseract
 import io
 import fitz  # PyMuPDF
+from processors.file_uploader import upload_to_drive
 
 
 def extract_text_from_pdf(pdf_bytes):
@@ -27,17 +28,24 @@ def process_invoices(emails):
             try:
                 if filename.lower().endswith('.pdf'):
                     print("📄 PDF identified")
+
+                    #Upload File to Drive
+                    file_url = upload_to_drive(file_data, filename)
                     text = extract_text_from_pdf(file_data)
 
                 elif filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff')):
                     print("🖼️ Image identified")
                     image = Image.open(io.BytesIO(file_data))
+                    
+                    #Upload File to Drive
+                    file_url = upload_to_drive(file_data, filename)
                     text = pytesseract.image_to_string(image)
 
                 if text.strip():
                     invoices.append({
                         'id': email['id'],
                         'filename': filename,
+                        'file_url': file_url,
                         'text': text.strip()
                     })
 
