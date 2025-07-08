@@ -1,6 +1,7 @@
 from mail.gmail_service import GmailService
 from mail.mail_utils import *
 from processors.invoice_parser import process_invoices
+from models.llm_interface import extract_invoice_data
 #from processors.spreadsheet_updater import update_spreadsheet
 
 
@@ -14,11 +15,15 @@ def main():
         print("No invoices found.")
         return
     
+ 
     # Procesar facturas
     invoices = process_invoices(messages)
+    #print(invoices)
     
+    # Obtener datos estructurados
+    processed_data = extract_invoice_data(invoices)
+    print(processed_data)
 
-    print(invoices)
     """
     if invoices:
         update_spreadsheet(invoices)
@@ -27,7 +32,7 @@ def main():
         print("No valid invoices processed.")
     """
 
-    print("✅ Process Completed.")
+    print("✅ Main process Completed.")
     #print(messages)
 
     #gmail.send_email("agustin.herrera@barbuss.com", "Hola desde Python", "Este es el cuerpo del mensaje.")
