@@ -1,45 +1,3 @@
-"""import io
-import pytesseract
-from googleapiclient.discovery import build
-from PIL import Image
-from pdf2image import convert_from_bytes
-from models.llm_interface import extract_invoice_data
-
-def process_invoices(emails):
-    invoices = []
-
-    for email in emails:
-        print(f"📥 Procesando email {email['id']}")
-        for attachment in email.get('attachments', []):
-            filename = attachment['filename']
-            file_data = attachment['data']
-            text = ""
-
-            try:
-                if filename.lower().endswith('.pdf'):
-                    print("📄 PDF identificado")
-                    images = convert_from_bytes(file_data)
-                    for image in images:
-                        text += pytesseract.image_to_string(image)
-
-                elif filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff')):
-                    print("🖼️ Imagen identificada")
-                    image = Image.open(io.BytesIO(file_data))
-                    text = pytesseract.image_to_string(image)
-
-                if text.strip():
-                    invoices.append({
-                        'id': email['id'],
-                        'filename': filename,
-                        'text': text.strip()
-                    })
-
-            except Exception as e:
-                print(f"❌ Error procesando {filename} de {email['id']}: {e}")
-
-    return invoices"""
-
-
 from PIL import Image
 import pytesseract
 import io
@@ -72,7 +30,7 @@ def process_invoices(emails):
                     text = extract_text_from_pdf(file_data)
 
                 elif filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff')):
-                    print("🖼️ Imagen identified")
+                    print("🖼️ Image identified")
                     image = Image.open(io.BytesIO(file_data))
                     text = pytesseract.image_to_string(image)
 
