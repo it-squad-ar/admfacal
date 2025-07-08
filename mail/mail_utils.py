@@ -70,7 +70,11 @@ def get_invoice_emails(self):
 
 def apply_label(self, messages, label):
     print(f"🏷️ Applying label '{label}' to emails.")
-    # Implementación futura
+    # TODO: Aplicar etiqueta a los emails de FACTURAS - IA. Si la etiqueta no existe, entonces crearla.
+
+def mark_read(self, messages, label):
+    print(f"🏷️ Setting mails to read state")
+    # TODO: Marcar como leido los correos que se procesaron.
 
 def send_email(self, to_email, subject, body):
     """
