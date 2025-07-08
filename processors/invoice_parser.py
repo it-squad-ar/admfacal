@@ -29,17 +29,33 @@ def process_invoices(emails):
                 if filename.lower().endswith('.pdf'):
                     print("📄 PDF identified")
 
-                    #Upload File to Drive
-                    file_url = upload_to_drive(file_data, filename)
-                    text = extract_text_from_pdf(file_data)
+                    try: 
+                        #Upload File to Drive
+                        file_url = upload_to_drive(file_data, filename)
+                    except Exception as e:
+                        print(f"❌ Error uploading PDF to Drive: {e}")
+
+                    try:
+                        #Extract text from PDF
+                        text = extract_text_from_pdf(file_data)
+                    except Exception as e:
+                        print(f"❌ Error extracting text from PDF: {e}")
 
                 elif filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff')):
                     print("🖼️ Image identified")
                     image = Image.open(io.BytesIO(file_data))
                     
-                    #Upload File to Drive
-                    file_url = upload_to_drive(file_data, filename)
-                    text = pytesseract.image_to_string(image)
+                    try: 
+                        #Upload File to Drive
+                        file_url = upload_to_drive(file_data, filename)
+                    except Exception as e:
+                        print(f"❌ Error uploading PDF to Drive: {e}")
+
+                    try:
+                        #Extract text from Image
+                        text = pytesseract.image_to_string(image)
+                    except Exception as e:
+                        print(f"❌ Error extracting text from image: {e}")
 
                 if text.strip():
                     invoices.append({
