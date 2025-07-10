@@ -20,7 +20,7 @@ def main():
     #print(invoices)
     
     # Obtener datos estructurados
-    #processed_data = extract_invoice_data(invoices)
+    processed_data = extract_invoice_data(invoices)
     #print(processed_data)
 
     """

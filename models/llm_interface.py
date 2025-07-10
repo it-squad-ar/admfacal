@@ -29,9 +29,9 @@ def extract_invoice_data(messages):
                     "model": "llama3:8b",
                     "prompt": (
                         "Extraé la siguiente información en formato JSON: "
-                        "Fecha, CUITEmisor, CUITReceptor, PtoVenta, NroFactura, Monto, RazonSocialEmisor, RazonSocialReceptor "
+                        "Fecha, CUITEmisor, RazonSocialEmisor, PtoVenta, NroFactura, Monto, CUITReceptor, RazonSocialReceptor"
                         f"para los datos contenidos en el siguiente set de datos:\n{text}.\n"
-                        "No quiero más información, únicamente el JSON en formato plano."
+                        "No quiero más información, únicamente el JSON en formato plano. Si algun campo no es idenfiticado, entonces dejar la clave con valor en blanco"
                     ),
                     "stream": False
                 }
@@ -72,22 +72,26 @@ def extract_invoice_data(messages):
             continue
 
         # Validar que estén todas las claves requeridas
-        required_keys = ["Fecha", "CUIT", "NroFactura", "Monto", "RazonSocial"]
-        if not all(key in data for key in required_keys):
-            print(f"⚠️ Incomplete data in message {message_id}. Missing keys.")
-            continue
+        # required_keys = ["Fecha", "CUIT", "NroFactura", "Monto", "RazonSocial"]
+        # if not all(key in data for key in required_keys):
+        #     print(f"⚠️ Incomplete data in message {message_id}. Missing keys.")
+        #     continue
 
         results.append({
             "message_id": message_id,
             "response_timestamp": datetime.now().isoformat(),
             "processed_data": {
-                "Fecha": data["Fecha"],
-                "CUIT": data["CUIT"],
-                "NroFactura": data["NroFactura"],
-                "Monto": data["Monto"],
-                "RazonSocial": data["RazonSocial"]
+                "Fecha": data.get("Fecha", ""),
+                "CUITEmisor": data.get("CUITEmisor", ""),
+                "RazonSocialEmisor": data.get("RazonSocialEmisor", ""),
+                "PtoVenta": data.get("PtoVenta", 0),
+                "NroFactura": data.get("NroFactura", 0),
+                "Monto": data.get("Monto", 0),
+                "CUITReceptor": data.get("CUITReceptor", ""),
+                "RazonSocialReceptor": data.get("RazonSocialReceptor", "")
             }
         })
+
 
         #Insertar los valores en GSheets
         insert_invoice_data(results)
