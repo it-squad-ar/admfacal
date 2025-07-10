@@ -14,15 +14,14 @@ def main():
     if not messages:
         print("No invoices found.")
         return
-    
- 
+
     # Procesar facturas
     invoices = process_invoices(messages)
     #print(invoices)
     
     # Obtener datos estructurados
-    processed_data = extract_invoice_data(invoices)
-    print(processed_data)
+    #processed_data = extract_invoice_data(invoices)
+    #print(processed_data)
 
     """
     if invoices:

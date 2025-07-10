@@ -1,3 +1,4 @@
+from mail.gmail_service import GmailService
 import gspread
 from google.oauth2.service_account import Credentials
 from gspread.exceptions import SpreadsheetNotFound, WorksheetNotFound
@@ -10,14 +11,14 @@ def insert_invoice_data(response_data, spreadsheet_id=None, sheet_name="IA Factu
     - spreadsheet_id: ID del Google Sheet (str)
     - sheet_name: nombre de la pestaña (str)
     """
+
     if not response_data:
         print("⚠️ No hay datos para insertar.")
         return
 
     try:
         # Autenticación
-        scopes = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
-        credentials = Credentials.from_service_account_file("credentials.json", scopes=scopes)
+        credentials = GmailService().get_creds()
         client = gspread.authorize(credentials)
 
         # Obtener o crear el spreadsheet

@@ -10,6 +10,8 @@ class GmailService:
             'https://www.googleapis.com/auth/gmail.labels',
             'https://www.googleapis.com/auth/gmail.modify',
             'https://www.googleapis.com/auth/gmail.send',
+            'https://www.googleapis.com/auth/drive',
+            'https://www.googleapis.com/auth/spreadsheets'
         ]
         self.creds = None  # ← importante
         if os.path.exists('config/token.json'):

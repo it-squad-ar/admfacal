@@ -8,7 +8,14 @@ def get_invoice_emails(self):
     print("🔍 Fetching emails...")
     try:
         service = build('gmail', 'v1', credentials=self.get_creds())
-        response = service.users().messages().list(userId='me', labelIds=['INBOX'], maxResults=10).execute()
+        # Utilizar q como filtro de busqueda
+        response = service.users().messages().list(
+                userId='me',
+                labelIds=['INBOX'],
+                q='is:unread',
+                maxResults=10
+            ).execute()
+
         messages = response.get('messages', [])
 
         if not messages:

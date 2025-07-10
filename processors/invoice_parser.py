@@ -28,10 +28,11 @@ def process_invoices(emails):
             try:
                 if filename.lower().endswith('.pdf'):
                     print("📄 PDF identified")
-
+                    
                     try: 
                         #Upload File to Drive
                         file_url = upload_to_drive(file_data, filename)
+                        print('File uploaded to Drive')
                     except Exception as e:
                         print(f"❌ Error uploading PDF to Drive: {e}")
 
