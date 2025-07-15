@@ -16,11 +16,11 @@ def main():
         return
 
     # Procesar facturas
-    invoices = process_invoices(messages)
+    #invoices = process_invoices(messages)
     #print(invoices)
     
     # Obtener datos estructurados
-    processed_data = extract_invoice_data(invoices)
+    #processed_data = extract_invoice_data(invoices)
     #print(processed_data)
 
     """

@@ -13,6 +13,7 @@ def extract_invoice_data(messages):
 
     for invoice in messages:
         message_id = invoice.get('id')
+        file_url = invoice.get('file_url')
         text = invoice.get('text')
 
         print(f"🔍 Processing message {message_id}...")
@@ -56,8 +57,6 @@ def extract_invoice_data(messages):
 
             parsed_data = json.loads(raw_text)
 
-            print(parsed_data)
-
             # Tomar el primer elemento si es una lista de un solo objeto
             if isinstance(parsed_data, list) and parsed_data:
                 data = parsed_data[0]
@@ -88,7 +87,8 @@ def extract_invoice_data(messages):
                 "NroFactura": data.get("NroFactura", 0),
                 "Monto": data.get("Monto", 0),
                 "CUITReceptor": data.get("CUITReceptor", ""),
-                "RazonSocialReceptor": data.get("RazonSocialReceptor", "")
+                "RazonSocialReceptor": data.get("RazonSocialReceptor", ""),
+                "DocURL": file_url
             }
         })
 

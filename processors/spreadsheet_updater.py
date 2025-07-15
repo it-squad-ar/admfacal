@@ -55,7 +55,7 @@ def insert_invoice_data(response_data, spreadsheet_id=None, sheet_name='Facturas
             sheet.append_row([
                 "message_id", "response_timestamp", "Fecha", "CUITEmisor",
                 "RazonSocialEmisor", "PtoVenta", "NroFactura", "Monto",
-                "CUITReceptor", "RazonSocialReceptor", "file_url"
+                "CUITReceptor", "RazonSocialReceptor", "DocURL"
             ])
 
         # 📥 Insertar datos
@@ -72,7 +72,7 @@ def insert_invoice_data(response_data, spreadsheet_id=None, sheet_name='Facturas
                 data.get("Monto"),
                 data.get("CUITReceptor"),
                 data.get("RazonSocialReceptor"),
-                row.get("file_url")
+                data.get("DocURL")
             ]
             sheet.append_row(new_row, value_input_option='USER_ENTERED')
             print(f"✅ Inserted data for message {row['message_id']}")

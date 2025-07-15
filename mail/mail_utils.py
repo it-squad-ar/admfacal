@@ -3,6 +3,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from base64 import b64encode, urlsafe_b64decode
 from email.mime.text import MIMEText
+from utils.logger import log_entry
 
 def get_invoice_emails(self):
     print("🔍 Fetching emails...")
@@ -69,10 +70,14 @@ def get_invoice_emails(self):
                 'attachments': attachments
             })
 
+            #Add log memory: log_entry(message_id, process_name, level, code, message)
+            log_entry(msg_id, 'get_invoice_emails', 'SUCCESS', '0000', 'Success fetching email')
+
         return emails
 
     except HttpError as error:
-        print(f'❌ An error occurred: {error}')
+        #Add log memory: log_entry(message_id, process_name, level, code, message)
+        log_entry(msg_id, 'get_invoice_emails', 'FATAL', '0001', f'❌ An error occurred: {error}')
         return []
 
 def apply_label(self, messages, label):
@@ -87,7 +92,7 @@ def send_email(self, to_email, subject, body):
     """
     Enviar un correo a `to_email` con el asunto `subject` y cuerpo `body`.
     """
-    print(f"✉️ Enviando correo a {to_email}...")
+    #print(f"✉️ Enviando correo a {to_email}...")
 
     try:
         service = build('gmail', 'v1', credentials=self.get_creds())
@@ -97,7 +102,11 @@ def send_email(self, to_email, subject, body):
         message['subject'] = subject
         raw_message = {'raw': b64encode(message.as_string().encode()).decode()}
 
-        service.users().messages().send(userId='me', body=raw_message).execute()
-        print("✅ Correo enviado.")
+        response = service.users().messages().send(userId='me', body=raw_message).execute()
+
+        #Add log memory: log_entry(message_id, process_name, level, code, message)
+        log_entry(response.get("id", "NO_ID"), 'send_email', 'SUCCESS', '0000', '✅ Correo enviado.')
+
     except HttpError as error:
-        print(f"❌ Error al enviar el correo: {error}")
+        #Add log memory: log_entry(message_id, process_name, level, code, message)
+        log_entry(response.get("id", "NO_ID"), 'send_email', 'ERROR', '0001', f'❌ Error al enviar el correo: {error}')

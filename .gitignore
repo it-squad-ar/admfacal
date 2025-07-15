@@ -13,6 +13,7 @@ config/token.json
 Thumbs.db
 
 # Archivos de logs
+logs/
 *.log
 
 # __pycache__ y archivos compilados de Python
