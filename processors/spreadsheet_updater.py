@@ -8,7 +8,7 @@ import datetime
 
 def insert_invoice_data(response_data, spreadsheet_id=None, sheet_name='Facturas Ingresadas'):
     if not response_data:
-        print("⚠️ No hay datos para insertar.")
+        print("No hay datos para insertar.")
         return
 
     try:
@@ -21,17 +21,17 @@ def insert_invoice_data(response_data, spreadsheet_id=None, sheet_name='Facturas
         folder_path = ["FACTURAS - IA", month_folder]
         parent_folder_id = get_or_create_folder_path(drive_service, folder_path)
         if not parent_folder_id:
-            print("❌ No se pudo ubicar o crear la carpeta destino.")
+            print("No se pudo ubicar o crear la carpeta destino.")
             return
 
         # 🧾 Crear Spreadsheet si no se proporcionó uno
         if not spreadsheet_id:
             sheet_title = f'Facturas Ingresadas - {month_folder}'
-            print("⚠️ No se proporcionó ID. Creando nuevo spreadsheet.")
+            print("No se proporcionó ID. Creando nuevo spreadsheet.")
             spreadsheet = client.create(sheet_title)
             spreadsheet.share(None, perm_type='anyone', role='writer')
             spreadsheet_id = spreadsheet.id
-            print(f"🆕 Spreadsheet creado: {spreadsheet_id}")
+            print(f"Spreadsheet creado: {spreadsheet_id}")
 
             # Mover a la carpeta correspondiente
             drive_service.files().update(
@@ -47,7 +47,7 @@ def insert_invoice_data(response_data, spreadsheet_id=None, sheet_name='Facturas
                 log_entry(response_data["processed_data"], 'insert_invoice_data', 'SUCCESS', '0000', 'Success creating Spreadsheet')
             except SpreadsheetNotFound:
                 #Add log memory: log_entry(message_id, process_name, level, code, message)
-                log_entry(response_data["processed_data"], 'insert_invoice_data', 'FATAL', '0001', '❌ Spreadsheet ID not found. Aborting.')
+                log_entry(response_data["processed_data"], 'insert_invoice_data', 'FATAL', '0001', 'Spreadsheet ID not found. Aborting.')
                 return
 
         # 📄 Obtener o crear la hoja
@@ -81,8 +81,8 @@ def insert_invoice_data(response_data, spreadsheet_id=None, sheet_name='Facturas
             ]
             sheet.append_row(new_row, value_input_option='USER_ENTERED')
             #Add log memory: log_entry(message_id, process_name, level, code, message)
-            log_entry(row["message_id"], 'insert_invoice_data', 'SUCCESS', '0000', f"✅ Inserted data for message {row['message_id']}")
+            log_entry(row["message_id"], 'insert_invoice_data', 'SUCCESS', '0000', f"Inserted data for message {row['message_id']}")
 
     except Exception as e:
         #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(row["message_id"], 'insert_invoice_data', 'FATAL', '0001', f"❌ Error inserting data into Sheets: {e}")
+        log_entry(row["message_id"], 'insert_invoice_data', 'FATAL', '0001', f"Error inserting data into Sheets: {e}")

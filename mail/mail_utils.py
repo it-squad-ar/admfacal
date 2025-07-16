@@ -75,7 +75,7 @@ def get_invoice_emails(self):
 
     except HttpError as error:
         #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(msg_id, 'get_invoice_emails', 'FATAL', '0001', f'❌ An error occurred: {error}')
+        log_entry(msg_id, 'get_invoice_emails', 'FATAL', '0001', f'An error occurred: {error}')
         return []
 
 def apply_label(self, messages, label):
@@ -103,11 +103,11 @@ def send_email(self, to_email, subject, body):
         response = service.users().messages().send(userId='me', body=raw_message).execute()
 
         #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(response.get("id", "NO_ID"), 'send_email', 'SUCCESS', '0000', '✅ Correo enviado.')
+        log_entry(response.get("id", "NO_ID"), 'send_email', 'SUCCESS', '0000', 'Correo enviado.')
 
     except HttpError as error:
         #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(response.get("id", "NO_ID"), 'send_email', 'FATAL', '0001', f'❌ Error al enviar el correo: {error}')
+        log_entry(response.get("id", "NO_ID"), 'send_email', 'FATAL', '0001', f'Error al enviar el correo: {error}')
 
 def send_fatal_log_email(self, to_email, subject, body):
     """
@@ -126,8 +126,8 @@ def send_fatal_log_email(self, to_email, subject, body):
         response = service.users().messages().send(userId='me', body=raw_message).execute()
 
         #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(response.get("id", "NO_ID"), 'send_email', 'SUCCESS', '0000', '✅ Correo enviado.')
+        log_entry(response.get("id", "NO_ID"), 'send_email', 'SUCCESS', '0000', 'Correo enviado.')
 
     except HttpError as error:
         #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(response.get("id", "NO_ID"), 'send_email', 'ERROR', '0001', f'❌ Error al enviar el correo: {error}')
+        log_entry(response.get("id", "NO_ID"), 'send_email', 'ERROR', '0001', f'Error al enviar el correo: {error}')

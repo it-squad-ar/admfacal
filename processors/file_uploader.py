@@ -9,7 +9,7 @@ from utils.logger import log_entry
 def upload_to_drive(file_data: bytes, filename: str) -> str:
     credentials = GmailService().get_creds()
     if not credentials:
-        print("❌ No se pudieron obtener las credenciales de Google Drive.")
+        print("No se pudieron obtener las credenciales de Google Drive.")
         return None
 
     try:
@@ -17,9 +17,9 @@ def upload_to_drive(file_data: bytes, filename: str) -> str:
         #Add log memory: log_entry(message_id, process_name, level, code, message)
         log_entry(filename, 'upload_to_drive', 'SUCCESS', '0000', 'Success authenticating with Google Drive')
     except Exception as e:
-        print(f"❌ Error al autenticar con Google Drive: {e}")
+        print(f"Error al autenticar con Google Drive: {e}")
         #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(filename, 'upload_to_drive', 'FATAL', '0001', f'❌ Error al autenticar con Google Drive: {e}')
+        log_entry(filename, 'upload_to_drive', 'FATAL', '0001', f'Error al autenticar con Google Drive: {e}')
         return None
 
     # 📁 Ruta de carpetas: FACTURAS - IA / MM-YYYY / Docs
@@ -47,7 +47,7 @@ def upload_to_drive(file_data: bytes, filename: str) -> str:
         log_entry(file_id, 'upload_to_drive', 'SUCCESS', '0000', 'Success uploading document')
     except Exception as e:
         #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(file_id, 'upload_to_drive', 'FATAL', '0001', f"❌ Error al subir el archivo '{filename}': {e}")
+        log_entry(file_id, 'upload_to_drive', 'FATAL', '0001', f"Error al subir el archivo '{filename}': {e}")
         return None
 
     # 🌍 Compartir
@@ -60,7 +60,7 @@ def upload_to_drive(file_data: bytes, filename: str) -> str:
         log_entry(file_id, 'upload_to_drive', 'SUCCESS', '0000', 'Success sharing document')
     except Exception as e:
         #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(file_id, 'upload_to_drive', 'WARNING', '0002', f"⚠️ Archivo subido pero no se pudo compartir públicamente: {e}")
+        log_entry(file_id, 'upload_to_drive', 'WARNING', '0002', f"Archivo subido pero no se pudo compartir públicamente: {e}")
         return f"https://drive.google.com/file/d/{file_id}"
 
     return f"https://drive.google.com/file/d/{file_id}/view"

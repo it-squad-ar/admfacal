@@ -32,7 +32,7 @@ class GmailService:
 
         except Exception as e:
             #Add log memory: log_entry(message_id, process_name, level, code, message)
-            log_entry('None', 'GmailService', 'FATAL', '0001', f'❌ Error fetching creds: {e}')
+            log_entry('None', 'GmailService', 'FATAL', '0001', f'Error fetching creds: {e}')
 
     def get_creds(self):
         return self.creds

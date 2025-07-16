@@ -46,7 +46,7 @@ def get_or_create_folder_path(drive_service, folder_names: list[str]) -> str:
 
         except HttpError as e:
             #Add log memory: log_entry(message_id, process_name, level, code, message)
-            log_entry(parent_id, 'get_or_create_folder_path', 'SUCCESS', '0001', f"❌ Error al crear/obtener la carpeta '{folder_name}': {e}")
+            log_entry(parent_id, 'get_or_create_folder_path', 'SUCCESS', '0001', f"Error al crear/obtener la carpeta '{folder_name}': {e}")
             
             return None
 

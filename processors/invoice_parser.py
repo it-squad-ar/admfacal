@@ -12,7 +12,7 @@ def extract_text_from_pdf(pdf_bytes):
             for page in doc:
                 text += page.get_text()
     except Exception as e:
-        print(f"❌ Error reading PDF with fitz: {e}")
+        print(f"Error reading PDF with fitz: {e}")
     return text.strip()
 
 def process_invoices(emails):
@@ -40,7 +40,7 @@ def process_invoices(emails):
                         log_entry(email['id'], 'extract_text_from_pdf', 'SUCCESS', '0000', 'Success extracting text from pdf')
                     except Exception as e:
                         #Add log memory: log_entry(message_id, process_name, level, code, message)
-                        log_entry(email['id'], 'extract_text_from_pdf', 'FATAL', '0001', f"❌ Error extracting text from PDF: {e}")
+                        log_entry(email['id'], 'extract_text_from_pdf', 'FATAL', '0001', f"Error extracting text from PDF: {e}")
 
                 elif filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff')):
                     print("🖼️ Image identified")
@@ -57,7 +57,7 @@ def process_invoices(emails):
                         log_entry(email['id'], 'extract_text_from_image', 'SUCCESS', '0000', 'Success extracting text from image')
                     except Exception as e:
                         #Add log memory: log_entry(message_id, process_name, level, code, message)
-                        log_entry(email['id'], 'extract_text_from_image', 'FATAL', '0001', f"❌ Error extracting text from image: {e}")
+                        log_entry(email['id'], 'extract_text_from_image', 'FATAL', '0001', f"Error extracting text from image: {e}")
 
                 if text.strip():
                     invoices.append({
@@ -71,6 +71,6 @@ def process_invoices(emails):
 
             except Exception as e:
                 #Add log memory: log_entry(message_id, process_name, level, code, message)
-                log_entry(email['id'], 'extract_text_from_image', 'FATAL', '0001', f"❌ Error processing {filename} from {email['id']}: {e}")
+                log_entry(email['id'], 'extract_text_from_image', 'FATAL', '0001', f"Error processing {filename} from {email['id']}: {e}")
 
     return invoices

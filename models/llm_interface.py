@@ -42,12 +42,12 @@ def extract_invoice_data(messages):
             log_entry(message_id, 'extract_invoice_data', 'SUCCESS', '0000', 'Success calling LLM')
         except Exception as e:
             #Add log memory: log_entry(message_id, process_name, level, code, message)
-            log_entry(message_id, 'extract_invoice_data', 'FATAL', '0001', f'❌ Error calling LLM: {e}')
+            log_entry(message_id, 'extract_invoice_data', 'FATAL', '0001', f'Error calling LLM: {e}')
             continue
 
         if response.status_code != 200:
             #Add log memory: log_entry(message_id, process_name, level, code, message)
-            log_entry(message_id, 'extract_invoice_data', 'FATAL', response.status_code, f"❌ Error extracting invoice data: {response.text}")
+            log_entry(message_id, 'extract_invoice_data', 'FATAL', response.status_code, f"Error extracting invoice data: {response.text}")
             continue
 
         try:
@@ -73,12 +73,12 @@ def extract_invoice_data(messages):
                 log_entry(message_id, 'extract_invoice_data', 'SUCCESS', '0000', 'Success parsing data')
             else:
                 #Add log memory: log_entry(message_id, process_name, level, code, message)
-                log_entry(message_id, 'extract_invoice_data', 'WARNING', '0002', f"⚠️ Unexpected data format for message {message_id}. Skipping.")
+                log_entry(message_id, 'extract_invoice_data', 'WARNING', '0002', f"Unexpected data format for message {message_id}. Skipping.")
                 continue
 
         except Exception as e:
             #Add log memory: log_entry(message_id, process_name, level, code, message)
-            log_entry(message_id, 'extract_invoice_data', 'FATAL', '0001', f"❌ Error parsing JSON response: {e}")
+            log_entry(message_id, 'extract_invoice_data', 'FATAL', '0001', f"Error parsing JSON response: {e}")
             continue
 
         # Validar que estén todas las claves requeridas
