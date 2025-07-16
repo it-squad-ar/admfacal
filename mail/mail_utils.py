@@ -23,7 +23,7 @@ def get_invoice_emails(self):
             print('No emails found.')
             return []
 
-        print(f"Found {len(messages)} emails.")
+        #print(f"Found {len(messages)} emails.")
         emails = []
 
         for msg in messages:
@@ -69,10 +69,8 @@ def get_invoice_emails(self):
                 'email': email,
                 'attachments': attachments
             })
-
             #Add log memory: log_entry(message_id, process_name, level, code, message)
             log_entry(msg_id, 'get_invoice_emails', 'SUCCESS', '0000', 'Success fetching email')
-
         return emails
 
     except HttpError as error:
@@ -89,6 +87,29 @@ def mark_read(self, messages, label):
     # TODO: Marcar como leido los correos que se procesaron.
 
 def send_email(self, to_email, subject, body):
+    """
+    Enviar un correo a `to_email` con el asunto `subject` y cuerpo `body`.
+    """
+    #print(f"✉️ Enviando correo a {to_email}...")
+
+    try:
+        service = build('gmail', 'v1', credentials=self.get_creds())
+        message = MIMEText(body)
+        message['to'] = to_email
+        message['from'] = 'me'
+        message['subject'] = subject
+        raw_message = {'raw': b64encode(message.as_string().encode()).decode()}
+
+        response = service.users().messages().send(userId='me', body=raw_message).execute()
+
+        #Add log memory: log_entry(message_id, process_name, level, code, message)
+        log_entry(response.get("id", "NO_ID"), 'send_email', 'SUCCESS', '0000', '✅ Correo enviado.')
+
+    except HttpError as error:
+        #Add log memory: log_entry(message_id, process_name, level, code, message)
+        log_entry(response.get("id", "NO_ID"), 'send_email', 'FATAL', '0001', f'❌ Error al enviar el correo: {error}')
+
+def send_fatal_log_email(self, to_email, subject, body):
     """
     Enviar un correo a `to_email` con el asunto `subject` y cuerpo `body`.
     """

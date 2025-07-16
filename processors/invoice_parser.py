@@ -3,7 +3,7 @@ import pytesseract
 import io
 import fitz  # PyMuPDF
 from processors.file_uploader import upload_to_drive
-
+from utils.logger import log_entry
 
 def extract_text_from_pdf(pdf_bytes):
     text = ""
@@ -17,7 +17,7 @@ def extract_text_from_pdf(pdf_bytes):
 
 def process_invoices(emails):
     invoices = []
-
+    print('Processing invoices')
     for email in emails:
         print(f"📥 Processing email {email['id']}")
         for attachment in email.get('attachments', []):
@@ -29,34 +29,35 @@ def process_invoices(emails):
                 if filename.lower().endswith('.pdf'):
                     print("📄 PDF identified")
                     
-                    try: 
-                        #Upload File to Drive
-                        file_url = upload_to_drive(file_data, filename)
-                        print('File uploaded to Drive')
-                    except Exception as e:
-                        print(f"❌ Error uploading PDF to Drive: {e}")
+                    #Upload File to Drive
+                    file_url = upload_to_drive(file_data, filename)
 
                     try:
                         #Extract text from PDF
                         text = extract_text_from_pdf(file_data)
+
+                        #Add log memory: log_entry(message_id, process_name, level, code, message)
+                        log_entry(email['id'], 'extract_text_from_pdf', 'SUCCESS', '0000', 'Success extracting text from pdf')
                     except Exception as e:
-                        print(f"❌ Error extracting text from PDF: {e}")
+                        #Add log memory: log_entry(message_id, process_name, level, code, message)
+                        log_entry(email['id'], 'extract_text_from_pdf', 'FATAL', '0001', f"❌ Error extracting text from PDF: {e}")
 
                 elif filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff')):
                     print("🖼️ Image identified")
                     image = Image.open(io.BytesIO(file_data))
                     
-                    try: 
-                        #Upload File to Drive
-                        file_url = upload_to_drive(file_data, filename)
-                    except Exception as e:
-                        print(f"❌ Error uploading PDF to Drive: {e}")
+                    #Upload File to Drive
+                    file_url = upload_to_drive(file_data, filename)
 
                     try:
                         #Extract text from Image
                         text = pytesseract.image_to_string(image)
+
+                        #Add log memory: log_entry(message_id, process_name, level, code, message)
+                        log_entry(email['id'], 'extract_text_from_image', 'SUCCESS', '0000', 'Success extracting text from image')
                     except Exception as e:
-                        print(f"❌ Error extracting text from image: {e}")
+                        #Add log memory: log_entry(message_id, process_name, level, code, message)
+                        log_entry(email['id'], 'extract_text_from_image', 'FATAL', '0001', f"❌ Error extracting text from image: {e}")
 
                 if text.strip():
                     invoices.append({
@@ -65,8 +66,11 @@ def process_invoices(emails):
                         'file_url': file_url,
                         'text': text.strip()
                     })
+                #Add log memory: log_entry(message_id, process_name, level, code, message)
+                log_entry(email['id'], 'process_invoice', 'SUCCESS', '0000', f'Success processing {filename}')
 
             except Exception as e:
-                print(f"❌ Error processing {filename} from {email['id']}: {e}")
+                #Add log memory: log_entry(message_id, process_name, level, code, message)
+                log_entry(email['id'], 'extract_text_from_image', 'FATAL', '0001', f"❌ Error processing {filename} from {email['id']}: {e}")
 
     return invoices

@@ -2,6 +2,7 @@ import requests
 import json
 from datetime import datetime
 from processors.spreadsheet_updater import insert_invoice_data
+from utils.logger import log_entry
 
 def extract_invoice_data(messages):
     """
@@ -37,12 +38,16 @@ def extract_invoice_data(messages):
                     "stream": False
                 }
             )
+            #Add log memory: log_entry(message_id, process_name, level, code, message)
+            log_entry(message_id, 'extract_invoice_data', 'SUCCESS', '0000', 'Success calling LLM')
         except Exception as e:
-            print(f"❌ Error calling LLM: {e}")
+            #Add log memory: log_entry(message_id, process_name, level, code, message)
+            log_entry(message_id, 'extract_invoice_data', 'FATAL', '0001', f'❌ Error calling LLM: {e}')
             continue
 
         if response.status_code != 200:
-            print(f"❌ Error extracting invoice data: {response.text}")
+            #Add log memory: log_entry(message_id, process_name, level, code, message)
+            log_entry(message_id, 'extract_invoice_data', 'FATAL', response.status_code, f"❌ Error extracting invoice data: {response.text}")
             continue
 
         try:
@@ -60,14 +65,20 @@ def extract_invoice_data(messages):
             # Tomar el primer elemento si es una lista de un solo objeto
             if isinstance(parsed_data, list) and parsed_data:
                 data = parsed_data[0]
+                #Add log memory: log_entry(message_id, process_name, level, code, message)
+                log_entry(message_id, 'extract_invoice_data', 'SUCCESS', '0000', 'Success parsing data')
             elif isinstance(parsed_data, dict):
                 data = parsed_data
+                #Add log memory: log_entry(message_id, process_name, level, code, message)
+                log_entry(message_id, 'extract_invoice_data', 'SUCCESS', '0000', 'Success parsing data')
             else:
-                print(f"⚠️ Unexpected data format for message {message_id}. Skipping.")
+                #Add log memory: log_entry(message_id, process_name, level, code, message)
+                log_entry(message_id, 'extract_invoice_data', 'WARNING', '0002', f"⚠️ Unexpected data format for message {message_id}. Skipping.")
                 continue
 
         except Exception as e:
-            print(f"❌ Error parsing JSON response: {e}")
+            #Add log memory: log_entry(message_id, process_name, level, code, message)
+            log_entry(message_id, 'extract_invoice_data', 'FATAL', '0001', f"❌ Error parsing JSON response: {e}")
             continue
 
         # Validar que estén todas las claves requeridas
@@ -91,7 +102,6 @@ def extract_invoice_data(messages):
                 "DocURL": file_url
             }
         })
-
 
         #Insertar los valores en GSheets
         insert_invoice_data(results)

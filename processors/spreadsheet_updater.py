@@ -2,7 +2,8 @@ from mail.gmail_service import GmailService
 import gspread
 from googleapiclient.discovery import build
 from gspread.exceptions import SpreadsheetNotFound, WorksheetNotFound
-from utils.file_utils import get_or_create_folder_path
+from utils.file_utils import get_or_create_folder_path, delete_default_sheet
+from utils.logger import log_entry
 import datetime
 
 def insert_invoice_data(response_data, spreadsheet_id=None, sheet_name='Facturas Ingresadas'):
@@ -42,8 +43,11 @@ def insert_invoice_data(response_data, spreadsheet_id=None, sheet_name='Facturas
         else:
             try:
                 spreadsheet = client.open_by_key(spreadsheet_id)
+                #Add log memory: log_entry(message_id, process_name, level, code, message)
+                log_entry(response_data["processed_data"], 'insert_invoice_data', 'SUCCESS', '0000', 'Success creating Spreadsheet')
             except SpreadsheetNotFound:
-                print("❌ Spreadsheet ID no encontrado. Abortando.")
+                #Add log memory: log_entry(message_id, process_name, level, code, message)
+                log_entry(response_data["processed_data"], 'insert_invoice_data', 'FATAL', '0001', '❌ Spreadsheet ID not found. Aborting.')
                 return
 
         # 📄 Obtener o crear la hoja
@@ -57,6 +61,7 @@ def insert_invoice_data(response_data, spreadsheet_id=None, sheet_name='Facturas
                 "RazonSocialEmisor", "PtoVenta", "NroFactura", "Monto",
                 "CUITReceptor", "RazonSocialReceptor", "DocURL"
             ])
+            delete_default_sheet(spreadsheet)
 
         # 📥 Insertar datos
         for row in response_data:
@@ -75,7 +80,9 @@ def insert_invoice_data(response_data, spreadsheet_id=None, sheet_name='Facturas
                 data.get("DocURL")
             ]
             sheet.append_row(new_row, value_input_option='USER_ENTERED')
-            print(f"✅ Inserted data for message {row['message_id']}")
+            #Add log memory: log_entry(message_id, process_name, level, code, message)
+            log_entry(row["message_id"], 'insert_invoice_data', 'SUCCESS', '0000', f"✅ Inserted data for message {row['message_id']}")
 
     except Exception as e:
-        print(f"❌ Error inserting data into Sheets: {e}")
+        #Add log memory: log_entry(message_id, process_name, level, code, message)
+        log_entry(row["message_id"], 'insert_invoice_data', 'FATAL', '0001', f"❌ Error inserting data into Sheets: {e}")
