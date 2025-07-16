@@ -1,9 +1,11 @@
 import base64
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from base64 import b64encode, urlsafe_b64decode
+from base64 import b64encode, urlsafe_b64decode, urlsafe_b64encode
 from email.mime.text import MIMEText
 from utils.logger import log_entry
+from datetime import datetime
+from mail.gmail_service import GmailService
 
 def get_invoice_emails(self):
     print("🔍 Fetching emails...")
@@ -103,31 +105,34 @@ def send_email(self, to_email, subject, body):
         response = service.users().messages().send(userId='me', body=raw_message).execute()
 
         #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(response.get("id", "NO_ID"), 'send_email', 'SUCCESS', '0000', 'Correo enviado.')
+        log_entry(response.get("id", "NO_ID"), 'send_email', 'SUCCESS', '0000', 'Email sent.')
 
     except HttpError as error:
         #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(response.get("id", "NO_ID"), 'send_email', 'FATAL', '0001', f'Error al enviar el correo: {error}')
+        log_entry(response.get("id", "NO_ID"), 'send_email', 'FATAL', '0001', f'Error sending email: {error}')
 
-def send_fatal_log_email(self, to_email, subject, body):
+def send_fatal_log_email():
     """
-    Enviar un correo a `to_email` con el asunto `subject` y cuerpo `body`.
+    Enviar un correo con un mensaje de error fatal.
     """
-    #print(f"✉️ Enviando correo a {to_email}...")
-
     try:
-        service = build('gmail', 'v1', credentials=self.get_creds())
-        message = MIMEText(body)
-        message['to'] = to_email
-        message['from'] = 'me'
-        message['subject'] = subject
-        raw_message = {'raw': b64encode(message.as_string().encode()).decode()}
+        service = build('gmail', 'v1', credentials=GmailService().get_creds())
+        
+        message_text = f'A FATAL error occurred processing invoices. Please check the logs at {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}.'
+        mime_message = MIMEText(message_text)
+        recipients = ['nacho.frey@gmail.com', 'agustinorc@gmail.com']
+        mime_message['to'] = ', '.join(recipients)
+        mime_message['from'] = 'me'
+        mime_message['subject'] = 'Fatal error processing invoices'
+
+        raw_message = {
+            'raw': urlsafe_b64encode(mime_message.as_bytes()).decode()
+        }
 
         response = service.users().messages().send(userId='me', body=raw_message).execute()
 
-        #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(response.get("id", "NO_ID"), 'send_email', 'SUCCESS', '0000', 'Correo enviado.')
+        # Agregar log
+        log_entry(response.get("id", "NO_ID"), 'send_email', 'SUCCESS', '0000', 'Email sent.')
 
     except HttpError as error:
-        #Add log memory: log_entry(message_id, process_name, level, code, message)
-        log_entry(response.get("id", "NO_ID"), 'send_email', 'ERROR', '0001', f'Error al enviar el correo: {error}')
+        log_entry('NO_ID', 'send_email', 'ERROR', '0001', f'Error sending email: {error}')
