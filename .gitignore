@@ -4,9 +4,9 @@ venv/
 .venv/
 
 # Archivos de configuración o secretos
-config/credentials.json
 config/*.yaml
-config/token.json
+config/*.json
+config/*.pickle
 
 # Archivos del sistema
 .DS_Store
