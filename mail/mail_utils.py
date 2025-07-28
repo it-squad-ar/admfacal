@@ -129,10 +129,7 @@ def send_fatal_log_email():
             'raw': urlsafe_b64encode(mime_message.as_bytes()).decode()
         }
 
-        response = service.users().messages().send(userId='me', body=raw_message).execute()
+        service.users().messages().send(userId='me', body=raw_message).execute()
 
-        # Agregar log
-        log_entry(response.get("id", "NO_ID"), 'send_email', 'SUCCESS', '0000', 'Email sent.')
-
-    except HttpError as error:
-        log_entry('NO_ID', 'send_email', 'ERROR', '0001', f'Error sending email: {error}')
+    except HttpError:
+        pass
