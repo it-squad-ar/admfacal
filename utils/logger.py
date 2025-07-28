@@ -1,7 +1,7 @@
 import os
 import logging
 from datetime import datetime
-from mail.mail_utils import send_fatal_log_email
+from utils.fatal_notifier import send_fatal_log_email
 
 # Ruta base para los logs
 LOG_DIR = "logs"

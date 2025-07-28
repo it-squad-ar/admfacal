@@ -111,25 +111,3 @@ def send_email(self, to_email, subject, body):
         #Add log memory: log_entry(message_id, process_name, level, code, message)
         log_entry(response.get("id", "NO_ID"), 'send_email', 'FATAL', '0001', f'Error sending email: {error}')
 
-def send_fatal_log_email():
-    """
-    Enviar un correo con un mensaje de error fatal.
-    """
-    try:
-        service = build('gmail', 'v1', credentials=GmailService().get_creds())
-        
-        message_text = f'A FATAL error occurred processing invoices. Please check the logs at {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}.'
-        mime_message = MIMEText(message_text)
-        recipients = ['nacho.frey@gmail.com', 'agustinorc@gmail.com']
-        mime_message['to'] = ', '.join(recipients)
-        mime_message['from'] = 'me'
-        mime_message['subject'] = 'Fatal error processing invoices'
-
-        raw_message = {
-            'raw': urlsafe_b64encode(mime_message.as_bytes()).decode()
-        }
-
-        service.users().messages().send(userId='me', body=raw_message).execute()
-
-    except HttpError:
-        pass
