@@ -1,6 +1,7 @@
 import os
 import logging
 from datetime import datetime
+from mail.mail_utils import send_fatal_log_email
 
 # Ruta base para los logs
 LOG_DIR = "logs"
@@ -62,5 +63,6 @@ def log_entry(message_id, process_name, level, code, message):
         logger.warning(message, extra=extra)
     elif level == "FATAL":
         logger.error(message, extra=extra)
+        send_fatal_log_email()
     else:
         logger.debug(f"Nivel de log desconocido: {level}", extra=extra)
